@@ -1,29 +1,22 @@
 <div align="center">
   <h1>Boda</h1>
-  <p><strong>Plataforma web para gestionar la experiencia digital de una boda: registro de invitados, panel personal, imágenes y música</strong></p>
+  <p><strong>Plataforma web para gestionar la experiencia digital de una boda: invitaciones, panel personal, imágenes y música</strong></p>
+  <p>
+    <img src="https://img.shields.io/badge/Astro-7.0.5-0ea5e9?logo=astro&logoColor=white" alt="Astro">
+    <img src="https://img.shields.io/badge/React-19.2-61dafb?logo=react&logoColor=black" alt="React">
+    <img src="https://img.shields.io/badge/TypeScript-6.0-3178c6?logo=typescript&logoColor=white" alt="TypeScript">
+    <img src="https://img.shields.io/badge/Spring_Boot-4.1-6db33f?logo=springboot&logoColor=white" alt="Spring Boot">
+    <img src="https://img.shields.io/badge/Java-17-ed8b00?logo=openjdk&logoColor=white" alt="Java 17">
+  </p>
 </div>
-
----
-
-## Tabla de contenidos
-
-- [Descripción general](#descripción-general)
-- [Arquitectura](#arquitectura)
-- [Servicios](#servicios)
-- [Tech Stack](#tech-stack)
-- [Estructura del proyecto](#estructura-del-proyecto)
-- [Flujo de uso](#flujo-de-uso)
-- [Desarrollo local](#desarrollo-local)
-- [Variables de entorno](#variables-de-entorno)
-- [Estado del proyecto](#estado-del-proyecto)
 
 ---
 
 ## Descripción general
 
-**Boda** es una plataforma full stack pensada para centralizar la parte digital de una boda. El proyecto combina un frontend público y varios servicios backend para que los invitados puedan registrarse, iniciar sesión, gestionar su información personal, confirmar asistencia, subir imágenes y sugerir canciones para la playlist del evento.
+**Boda** es una plataforma full stack pensada para centralizar la parte digital de una boda. El objetivo es ofrecer una experiencia simple para los invitados: acceder a la web pública, registrarse o iniciar sesión, revisar su información personal, confirmar asistencia, ver la invitación de su familia, subir imágenes y sugerir canciones para la celebración.
 
-La idea del proyecto es que la experiencia del invitado sea sencilla y completa. Desde la web pública puede acceder al contenido principal del evento, autenticarse, revisar su panel personal, interactuar con la galería de imágenes y participar en la selección musical. El sistema separa responsabilidades entre frontend y microservicios para mantener cada parte enfocada en una tarea concreta.
+La aplicación separa claramente la interfaz pública de la lógica de negocio. `frontBoda` actúa como capa de presentación y se comunica con tres servicios backend especializados: autenticación y datos de invitados, gestión de imágenes e integración musical con Spotify. Esa separación hace que el proyecto sea más fácil de mantener y más claro de explicar en entrevista.
 
 El repositorio público incluye:
 
@@ -56,6 +49,20 @@ La arquitectura está dividida en cuatro partes principales:
 4. `BO-SPOTIFY` centraliza la integración con Spotify.
 
 Esta separación permite mantener el frontend ligero y mover la lógica de negocio a servicios independientes.
+
+---
+
+## Páginas principales
+
+- `/`: página de inicio con el contenido principal de la boda.
+- `/login`: acceso de invitados.
+- `/registro`: alta de invitado.
+- `/panel`: panel personal del invitado.
+- `/menu`: información del menú.
+- `/itinerario`: agenda del evento.
+- `/imagenes`: galería y subida de imágenes.
+- `/canciones`: sugerencia y gestión de canciones.
+- `/invitacion/[idfamily]`: invitación personalizada por familia.
 
 ---
 
@@ -108,7 +115,7 @@ Boda/
 
 ## Flujo de uso
 
-### 1. Invitado nuevo
+### Invitado nuevo
 
 1. Entra en la web pública.
 2. Accede al formulario de registro.
@@ -117,7 +124,7 @@ Boda/
 5. Confirma asistencia y preferencias si aplica.
 6. El frontend envía la información a `BO-USERS`.
 
-### 2. Invitado existente
+### Invitado existente
 
 1. El usuario inicia sesión con su email y contraseña.
 2. `BO-USERS` valida las credenciales y devuelve la sesión.
@@ -125,7 +132,7 @@ Boda/
 4. El invitado entra en su panel personal.
 5. Puede editar datos, confirmar asistencia y gestionar su información.
 
-### 3. Galería de imágenes
+### Galería de imágenes
 
 1. El invitado abre la sección de imágenes.
 2. Selecciona o arrastra archivos.
@@ -133,14 +140,14 @@ Boda/
 4. El servicio devuelve las claves o URLs públicas.
 5. La galería se actualiza en la interfaz.
 
-### 4. Música
+### Música
 
 1. El invitado entra en la sección de canciones.
 2. Busca una canción.
 3. `frontBoda` consulta `BO-SPOTIFY`.
 4. Puede sugerirla o añadirla a la playlist compartida.
 
-### 5. Invitación personalizada
+### Invitación personalizada
 
 1. El invitado abre su enlace de familia.
 2. `frontBoda` consulta `BO-USERS`.
