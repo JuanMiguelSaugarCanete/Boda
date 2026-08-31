@@ -2,9 +2,11 @@
 
 Plataforma web para una boda con frontend público en Astro y servicios backend en Spring Boot para invitados, imágenes y música.
 
-## Public scope
+## Overview
 
-Este repositorio público incluye:
+`Boda` es un monorepo preparado para mostrar en entrevista una solución full stack orientada a experiencia de invitado.
+
+El repositorio público incluye:
 
 - `frontBoda`: web pública de invitados.
 - `BO-USERS`: autenticación, registro y datos de invitados.
@@ -13,17 +15,13 @@ Este repositorio público incluye:
 
 `adminBoda/` se mantiene fuera del repositorio público.
 
-## Architecture
+## Features
 
-```text
-Boda/
-├── frontBoda/
-├── BO-USERS/
-├── BO-IMAGE/
-├── BO-SPOTIFY/
-├── .env.example
-└── README.md
-```
+- Registro e inicio de sesión de invitados.
+- Panel personal con datos familiares y confirmación de asistencia.
+- Galería y subida de imágenes.
+- Sugerencia de canciones para la playlist de la boda.
+- Invitación personalizada por familia.
 
 ## Tech Stack
 
@@ -32,15 +30,27 @@ Boda/
 - TypeScript
 - Spring Boot
 - Java 17
-- MongoDB
-- AWS S3 / DynamoDB
+- AWS S3
+- DynamoDB
 - Spotify API
 
-## Local setup
+## Repository Layout
 
-1. Copy `.env.example` to `.env` and fill in the values.
-2. Install dependencies in `frontBoda`.
-3. Build or run each backend service from its own folder.
+```text
+Boda/
+├── frontBoda/         # Frontend público
+├── BO-USERS/          # Auth, invitaciones y familia
+├── BO-IMAGE/          # Upload y resolución de imágenes
+├── BO-SPOTIFY/        # Integración con Spotify
+├── .env.example       # Variables requeridas sin secretos
+└── README.md
+```
+
+## Local Setup
+
+1. Copia `.env.example` a `.env` y completa los valores.
+2. Instala dependencias en `frontBoda`.
+3. Arranca cada backend desde su carpeta.
 
 ### Frontend
 
@@ -57,11 +67,26 @@ npm run check
 npm run build
 ```
 
-## Environment variables
+### Backends
 
-Use `.env.example` as the reference for required configuration.
+Desde cada carpeta del servicio:
 
-## Notes
+```sh
+./mvnw spring-boot:run
+```
 
-- The public repo intentionally excludes generated files, logs, local environment files, and the private `adminBoda/` app.
-- This project is intended as a portfolio codebase for interview review.
+En Windows:
+
+```powershell
+.\mvnw.cmd spring-boot:run
+```
+
+## Environment Variables
+
+Usa `.env.example` como base. No publiques el `.env` real.
+
+## Interview Notes
+
+- Este repo está pensado para revisión de código y arquitectura.
+- Se excluyen archivos generados, logs, credenciales locales y `adminBoda/`.
+- Si quieres evaluar rápido el proyecto, empieza por `frontBoda/src/pages/` y luego revisa `BO-USERS`, `BO-IMAGE` y `BO-SPOTIFY`.
