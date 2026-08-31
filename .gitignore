@@ -1,0 +1,22 @@
+# Public repo scope
+adminBoda/
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+
+# Node / Astro
+**/node_modules/
+**/dist/
+**/.astro/
+**/.vite/
+
+# Java / Spring
+**/target/
+**/.mvn/wrapper/maven-wrapper.jar
+
+# Logs and local editor state
+*.log
+.idea/
+.vscode/

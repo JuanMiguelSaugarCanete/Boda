@@ -1,0 +1,106 @@
+---
+const locationName = "Finca El Mirador de Cuatro Vientos";
+const address = "Ctra. Barrio de la Fortuna, 14, Latina, 28054 Madrid";
+const mapsEmbedUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3048.525468768875!2d-3.723!3d40.397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd4224e5e5e5e5e5%3A0x5e5e5e5e5e5e5e5e!2sCtra.%20Barrio%20de%20la%20Fortuna%2C%2014%2C%2028054%20Madrid!5e0!3m2!1ses!2ses!4v1700000000000!5m2!1ses!2ses";
+---
+
+<section class="ubicacion" id="ubicacion">
+  <div class="container">
+    <h2 class="section-title">Nuestra Boda</h2>
+    <p class="location-name">{locationName}</p>
+    <p class="direccion">{address}</p>
+    <div class="mapa">
+      <iframe
+        src={mapsEmbedUrl}
+        width="100%"
+        height="450"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Ubicación de la boda">
+      </iframe>
+    </div>
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-icon">🚗</div>
+        <h3>Cómo llegar</h3>
+        <p>Desde Madrid centro, toma la A-5 dirección Extremadura. Salida hacia Latina/Barrio de la Fortuna. El parking es gratuito en la finca.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🅿️</div>
+        <h3>Parking</h3>
+        <p>Disponemos de parking gratuito en las instalaciones de la finca. Habrá personal que te indicará dónde aparcar.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🚌</div>
+        <h3>Transporte público</h3>
+        <p>Línea de autobús 491 desde Alcorcón. Recomendamos venir en coche para mayor comodidad.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ubicacion {
+    padding: 6rem 2rem;
+    background: var(--color-white);
+  }
+
+  .location-name {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--color-primary);
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .direccion {
+    font-size: 1.1rem;
+    color: var(--color-body-light);
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .mapa {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 3rem;
+  }
+
+  .info-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .info-card {
+    background: var(--color-bg);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    transition: var(--transition);
+  }
+
+  .info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .info-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .info-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .info-card p {
+    color: var(--color-body);
+    line-height: 1.6;
+  }
+</style>

@@ -1,0 +1,424 @@
+---
+
+---
+
+<div class="polaroid-overlay" id="polaroid-overlay" aria-hidden="true">
+  <div class="polaroid-bg"></div>
+  <div id="animation">
+    <div class="flash"></div>
+    <div class="fold top"></div>
+    <div class="fold bottom"></div>
+    <div class="face">
+      <div class="notch"></div>
+      <div class="lens"></div>
+      <div class="dial right"></div>
+      <div class="dial left"></div>
+      <div class="button"></div>
+      <div class="label">Polaroid</div>
+    </div>
+    <div class="photo"><img id="polaroid-photo-img" alt="Tu foto" /></div>
+  </div>
+</div>
+
+<style is:global>
+  .polaroid-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9998;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .polaroid-overlay.show {
+    display: block;
+    opacity: 1;
+  }
+
+  .polaroid-overlay.fade-out {
+    opacity: 0;
+  }
+
+  .polaroid-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 241, 244, 1);
+  }
+
+  #animation {
+    position: fixed;
+    animation: wholeCamera 4s ease-in-out 0s 1 normal none;
+    -webkit-animation: wholeCamera 4s ease-in-out 0s 1 normal none;
+    width: 100%;
+    height: 100%;
+    top: 0%;
+    left: 0%;
+    margin-top: 75px;
+    z-index: 1;
+    opacity: 1;
+  }
+
+  .face {
+    width: 180px;
+    height: 60px;
+    background-color: rgba(226, 230, 234, 1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -30px;
+    margin-left: -90px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+
+  .face:before {
+    position: absolute;
+    content: "";
+    background-color: rgba(255, 255, 255, 0.75);
+    width: 180px;
+    height: 8px;
+    margin-top: 0px;
+    z-index: 1;
+  }
+
+  .face .label {
+    font-size: 6px;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    animation: label 4s ease-in-out 0s 1 normal none;
+    -webkit-animation: label 4s ease-in-out 0s 1 normal none;
+    color: #fff;
+    letter-spacing: 4px;
+    text-align: center;
+    position: absolute;
+    z-index: 12;
+    width: 185px;
+    margin-left: 0px;
+    top: 29px;
+    border: none;
+    background: none;
+  }
+
+  .face:after {
+    position: absolute;
+    content: "";
+    width: 162px;
+    background-color: rgba(98, 100, 105, 1);
+    border: 4px solid rgba(226, 230, 234, 1);
+    border-bottom: 12px solid rgba(226, 230, 234, 1);
+    animation: bottom 4s ease-in-out 0s 1 normal none;
+    -webkit-animation: bottom 4s ease-in-out 0s 1 normal none;
+    z-index: -2;
+    height: 30px;
+    margin-top: 20px;
+    margin-left: 5px;
+  }
+
+  .face .lens {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    background-color: rgba(48, 50, 54, 1);
+    margin-top: -15px;
+    margin-left: -20px;
+  }
+
+  .face .lens:before {
+    position: absolute;
+    content: "";
+    width: 24px;
+    height: 24px;
+    top: 50%;
+    left: 50%;
+    border-radius: 30px;
+    background-color: rgba(68, 70, 74, 1);
+    box-shadow: -2px -4px 0px 0px rgba(255, 255, 255, 0.1) inset;
+    margin-top: -12px;
+    margin-left: -12px;
+  }
+
+  .face .dial {
+    width: 30px;
+    height: 10px;
+    background-color: rgba(216, 220, 224, 1);
+    overflow: hidden;
+    position: absolute;
+    top: 3px;
+    left: 50%;
+  }
+
+  .face .dial:before {
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    margin-left: 2px;
+    border-radius: 26px;
+    margin-top: 3px;
+    content: "";
+    z-index: 15;
+  }
+
+  .face .dial.left {
+    margin-left: -65px;
+    z-index: 10;
+  }
+
+  .face .dial.left:before {
+    background-color: rgba(74, 76, 80, 1);
+  }
+
+  .face .dial.right {
+    margin-left: 35px;
+    z-index: 10;
+  }
+
+  .face .dial.right:before {
+    background-color: rgba(250, 252, 255, 1);
+  }
+
+  .face .button {
+    position: absolute;
+    top: 50%;
+    margin-top: -6px;
+    left: 28px;
+    border-radius: 50px;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(245, 125, 128, 1);
+    box-shadow: 2px 2px 0px 0px rgba(28, 28, 28, 0.2);
+    border: 2px solid rgba(245, 245, 245, 1);
+  }
+
+  .face .button:after {
+    content: "";
+    position: absolute;
+    margin-left: 100px;
+    margin-top: 2px;
+    height: 15px;
+    width: 15px;
+    border-radius: 30px;
+    background-color: rgba(28, 28, 28, 0.6);
+    box-shadow: 2px 2px 0px 0px rgba(28, 28, 28, 0.2) inset;
+    border: 2px solid rgba(245, 245, 245, 1);
+  }
+
+  .face .notch {
+    position: absolute;
+    border-bottom: 10px solid rgba(226, 230, 234, 1);
+    width: 40px;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    left: 50%;
+    margin-left: -26px;
+    margin-top: -10px;
+    z-index: 20;
+  }
+
+  .fold.bottom {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 162px;
+    border: 4px solid rgba(226, 230, 234, 1);
+    background-color: rgba(159, 140, 138, 1);
+    animation: base 4s ease-in-out 0s 1 normal none;
+    -webkit-animation: base 4s ease-in-out 0s 1 normal none;
+    height: 32px;
+    margin-top: -32px;
+    margin-left: -85px;
+    z-index: -2;
+  }
+
+  .fold.top {
+    animation: top 4s ease-in-out 0s 1 normal none;
+    -webkit-animation: top 4s ease-in-out 0s 1 normal none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 64px;
+    border: 4px solid rgba(226, 230, 234, 1);
+    border-bottom-width: 12px;
+    box-shadow: 0px 4px 0px 0px rgba(226, 230, 234, 1);
+    background-color: rgba(159, 140, 138, 1);
+    height: 28px;
+    margin-top: -110px;
+    margin-left: -36px;
+    z-index: -1;
+  }
+
+  .fold.top:after {
+    position: absolute;
+    background-color: rgba(88, 90, 95, 1);
+    animation: support 4s ease-in-out 0s 1 normal none;
+    -webkit-animation: support 4s ease-in-out 0s 1 normal none;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    margin-left: 5px;
+    margin-top: 44px;
+    content: "";
+    width: 54px;
+    height: 16px;
+    z-index: -1;
+  }
+
+  .flash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: #fff;
+    animation: flash 4s ease-in-out 0s 1 normal none;
+    -webkit-animation: flash 4s ease-in-out 0s 1 normal none;
+    opacity: 0;
+  }
+
+  .photo {
+    position: absolute;
+    width: 120px;
+    height: 50%;
+    left: 50%;
+    overflow: hidden;
+    margin-left: -60px;
+    margin-top: 30px;
+    top: 50%;
+  }
+
+  .photo:after {
+    width: 120px;
+    height: 130px;
+    margin-top: -130px;
+    background-color: rgba(255, 255, 255, 1);
+    animation: photo 4s ease-in 0s 1 normal none;
+    -webkit-animation: photo 4s ease-in 0s 1 normal none;
+    content: "";
+    position: absolute;
+    z-index: 1;
+  }
+
+  .photo img {
+    width: 110px;
+    height: 90px;
+    margin-top: -125px;
+    margin-left: 5px;
+    object-fit: cover;
+    animation: photo 4s ease-in 0s 1 normal none;
+    -webkit-animation: photo 4s ease-in 0s 1 normal none;
+    position: absolute;
+    z-index: 2;
+  }
+
+  @keyframes base {
+    75% { height: 0px; transform: translate(0px, 0px); }
+    65% { height: 32px; transform: translate(0px, -32px); }
+    35% { height: 32px; transform: translate(0px, -32px); }
+    25% { height: 0px; transform: translate(0px, 0px); }
+    100% { height: 0px; transform: translate(0px, 0px); }
+    0% { height: 0px; transform: translate(0px, 0px); }
+  }
+
+  @keyframes top {
+    75% { height: 0px; border-bottom-width: 1px; transform: translate(0px, 76px); }
+    65% { height: 28px; border-bottom-width: 12px; transform: translate(0px, 0px); }
+    35% { height: 28px; border-bottom-width: 12px; transform: translate(0px, 0px); }
+    25% { height: 0px; border-bottom-width: 1px; transform: translate(0px, 76px); }
+    100% { height: 0px; border-bottom-width: 1px; transform: translate(0px, 76px); }
+    0% { height: 0px; border-bottom-width: 1px; transform: translate(0px, 76px); }
+  }
+
+  @keyframes bottom {
+    75% { height: 0px; border-bottom-width: 1px; transform: translate(0px, 36px); }
+    65% { height: 28px; border-bottom-width: 12px; transform: translate(0px, 36px); }
+    35% { height: 28px; border-bottom-width: 12px; transform: translate(0px, 36px); }
+    25% { height: 0px; border-bottom-width: 1px; transform: translate(0px, 36px); }
+    100% { height: 0px; border-bottom-width: 1px; transform: translate(0px, 36px); }
+    0% { height: 0px; border-bottom-width: 1px; transform: translate(0px, 36px); }
+  }
+
+  @keyframes label {
+    75% { transform: translate(0px, 0px); }
+    65% { transform: translate(0px, 36px); }
+    35% { transform: translate(0px, 36px); }
+    25% { transform: translate(0px, 0px); }
+    100% { transform: translate(0px, 0px); }
+    0% { transform: translate(0px, 0px); }
+  }
+
+  @keyframes support {
+    75% { transform: translate(0px, -36px); }
+    65% { transform: translate(0px, 0px); }
+    35% { transform: translate(0px, 0px); }
+    25% { transform: translate(0px, -36px); }
+    100% { transform: translate(0px, -36px); }
+    0% { transform: translate(0px, -36px); }
+  }
+
+  @keyframes flash {
+    55% { opacity: 0; }
+    47% { opacity: 1; }
+    46% { opacity: 0; }
+    100% { opacity: 0; }
+    0% { opacity: 0; }
+  }
+
+  @keyframes photo {
+    90% { opacity: 1; }
+    54% { transform: translate(0px, 0px); }
+    100% { opacity: 0; transform: translate(0px, 2500px); }
+    0% { opacity: 1; transform: translate(0px, 0px); }
+  }
+
+  @keyframes wholeCamera {
+    80% { transform: translate(0px, -50px); }
+    26% { transform: translate(0px, -50px); }
+    90% { transform: translate(0px, 0px); }
+    15% { transform: translate(0px, 0px); }
+    100% { transform: translate(0px, 0px); }
+    0% { transform: translate(0px, 0px); }
+  }
+</style>
+
+<script>
+  const overlay = document.getElementById('polaroid-overlay') as HTMLElement | null;
+  const photoImg = document.getElementById('polaroid-photo-img') as HTMLImageElement | null;
+
+  let hideTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function playPolaroid(src: string) {
+    if (!overlay || !photoImg) return;
+
+    if (hideTimer) {
+      clearTimeout(hideTimer);
+      hideTimer = null;
+    }
+
+    photoImg.src = src;
+
+    overlay.classList.remove('fade-out');
+    overlay.classList.remove('show');
+    overlay.style.display = 'block';
+    void overlay.offsetHeight;
+    overlay.classList.add('show');
+
+    hideTimer = setTimeout(() => {
+      overlay.classList.add('fade-out');
+      setTimeout(() => {
+        overlay.classList.remove('show');
+        overlay.style.display = 'none';
+        overlay.classList.remove('fade-out');
+      }, 400);
+    }, 4000);
+  }
+
+  (window as any).playPolaroid = playPolaroid;
+</script>

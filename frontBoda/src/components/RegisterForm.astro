@@ -1,0 +1,658 @@
+---
+---
+
+<section class="auth-hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Registro</h1>
+    <p>Crea tu cuenta en 4 sencillos pasos</p>
+  </div>
+</section>
+
+<section class="auth-seccion">
+  <div class="auth-container">
+    <ol class="steps-indicator">
+      <li class="step-dot active" data-step="1"><span class="step-num">1</span><span class="step-label">Verificación</span></li>
+      <li class="step-dot" data-step="2"><span class="step-num">2</span><span class="step-label">Cuenta</span></li>
+      <li class="step-dot" data-step="3"><span class="step-num">3</span><span class="step-label">Asistencia</span></li>
+      <li class="step-dot" data-step="4"><span class="step-num">4</span><span class="step-label">Dieta</span></li>
+    </ol>
+
+    <!-- Paso 1: verificación de teléfono + contraseña general -->
+    <form class="reg-step active" id="step-1" novalidate>
+      <h2>Verifica tu invitación</h2>
+      <p class="step-intro">Introduce tu teléfono y la contraseña que encontrarás en tu invitación.</p>
+      <div class="form-group">
+        <label for="reg-phone">Teléfono</label>
+        <input type="tel" id="reg-phone" required placeholder="612345678" autocomplete="tel" />
+      </div>
+      <div class="form-group">
+        <label for="reg-general-password">Contraseña de la invitación</label>
+        <input type="password" id="reg-general-password" required placeholder="La que aparece en tu invitación" />
+      </div>
+      <button type="submit" class="btn-auth" id="btn-step-1">Verificar</button>
+      <p class="step-error" id="error-1"></p>
+      <p class="step-notice" id="notice-1" hidden>
+        Este teléfono ya tiene una cuenta. <a href="/login">Inicia sesión aquí</a>.
+      </p>
+    </form>
+
+    <!-- Paso 2: datos de la cuenta -->
+    <form class="reg-step" id="step-2" novalidate>
+      <h2>Tu cuenta</h2>
+      <p class="step-intro" id="step2-greeting">Hola, ¿eres tú? Completa tus datos de acceso.</p>
+      <div class="form-group">
+        <label for="reg-name">Nombre</label>
+        <input type="text" id="reg-name" required placeholder="Tu nombre" autocomplete="name" />
+      </div>
+      <div class="form-group">
+        <label for="reg-email">Email</label>
+        <input type="email" id="reg-email" required placeholder="tu@email.com" autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label for="reg-password">Contraseña</label>
+        <input type="password" id="reg-password" required placeholder="Mínimo 8 caracteres" autocomplete="new-password" />
+      </div>
+      <div class="form-group">
+        <label for="reg-password2">Confirmar contraseña</label>
+        <input type="password" id="reg-password2" required placeholder="Repite tu contraseña" autocomplete="new-password" />
+      </div>
+      <div class="form-group">
+        <label for="reg-imgProfile">Foto de perfil</label>
+        <input type="file" id="reg-imgProfile" accept="image/*" />
+        <p class="upload-hint">Opcional. Se guardará en S3 como `imgProfile`.</p>
+      </div>
+      <div class="step-actions">
+        <button type="button" class="btn-back" data-back="1">Atrás</button>
+        <button type="submit" class="btn-auth">Siguiente</button>
+      </div>
+      <p class="step-error" id="error-2"></p>
+    </form>
+
+    <!-- Paso 3: asistencia -->
+    <form class="reg-step" id="step-3" novalidate>
+      <h2>¿Nos acompañarás?</h2>
+      <p class="step-intro">Podrás modificar tu respuesta más adelante desde tu panel. Fecha límite: <strong>1 de julio de 2027</strong>.</p>
+      <div class="asistencia-options">
+        <button type="button" class="asistencia-btn" data-value="SI">
+          <span class="asistencia-icon">🎉</span>
+          ¡Sí, allí estaré!
+        </button>
+        <button type="button" class="asistencia-btn" data-value="NO">
+          <span class="asistencia-icon">😢</span>
+          No podré asistir
+        </button>
+        <button type="button" class="asistencia-btn" data-value="AUN_NO_SE">
+          <span class="asistencia-icon">🤔</span>
+          Aún no lo sé
+        </button>
+      </div>
+      <div class="step-actions">
+        <button type="button" class="btn-back" data-back="2">Atrás</button>
+        <button type="submit" class="btn-auth">Siguiente</button>
+      </div>
+      <p class="step-error" id="error-3"></p>
+    </form>
+
+    <!-- Paso 4: alérgenos y dieta -->
+    <form class="reg-step" id="step-4" novalidate>
+      <h2>Alérgenos y dieta</h2>
+      <p class="step-intro">Queremos que disfrutes del menú sin preocupaciones.</p>
+      <div class="alergenos-grid">
+        <label class="alergeno-check"><input type="checkbox" value="GLUTEN" /> 🌾 Gluten</label>
+        <label class="alergeno-check"><input type="checkbox" value="LACTOSE" /> 🥛 Lactosa</label>
+        <label class="alergeno-check"><input type="checkbox" value="NUTS" /> 🥜 Frutos Secos</label>
+        <label class="alergeno-check"><input type="checkbox" value="SEAFOOD" /> 🦐 Marisco</label>
+        <label class="alergeno-check"><input type="checkbox" value="FISH" /> 🐟 Pescado</label>
+        <label class="alergeno-check"><input type="checkbox" value="EGG" /> 🥚 Huevo</label>
+        <label class="alergeno-check"><input type="checkbox" value="SOY" /> 🫘 Soja</label>
+      </div>
+      <div class="form-group">
+        <label>Preferencia de dieta</label>
+        <div class="diet-options">
+          <label class="diet-radio"><input type="radio" name="diet" value="NINGUNA" checked /> Sin preferencia</label>
+          <label class="diet-radio"><input type="radio" name="diet" value="VEGETARIANA" /> Vegetariana</label>
+          <label class="diet-radio"><input type="radio" name="diet" value="VEGANA" /> Vegana</label>
+          <label class="diet-radio"><input type="radio" name="diet" value="OTRA" /> Otra</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="reg-diet-notes">Otras intolerancias o notas</label>
+        <textarea id="reg-diet-notes" rows="3" placeholder="Especifica aquí cualquier otra alergia o intolerancia..."></textarea>
+      </div>
+      <div class="step-actions">
+        <button type="button" class="btn-back" data-back="3">Atrás</button>
+        <button type="submit" class="btn-auth" id="btn-step-4">Crear cuenta</button>
+      </div>
+      <p class="step-error" id="error-4"></p>
+    </form>
+  </div>
+</section>
+
+<style>
+  .auth-hero {
+    position: relative;
+    height: 40vh;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=1920&q=80') center/cover no-repeat;
+    margin-top: -70px;
+    padding-top: 70px;
+  }
+
+  .auth-seccion {
+    padding: 4rem 2rem;
+    background: var(--color-bg);
+    min-height: calc(100vh - 40vh - 70px);
+  }
+
+  .auth-container {
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    padding: 2rem;
+  }
+
+  .steps-indicator {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    position: relative;
+  }
+
+  .steps-indicator::before {
+    content: '';
+    position: absolute;
+    top: 17px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: var(--color-card-bg);
+    z-index: 0;
+  }
+
+  .step-dot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+  }
+
+  .step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--color-card-bg);
+    color: var(--color-body-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: var(--transition);
+  }
+
+  .step-dot.active .step-num,
+  .step-dot.done .step-num {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .step-label {
+    font-size: 0.75rem;
+    color: var(--color-body-light);
+  }
+
+  .step-dot.active .step-label {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .reg-step {
+    display: none;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .reg-step.active {
+    display: flex;
+  }
+
+  .reg-step h2 {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .step-intro {
+    color: var(--color-body-light);
+    font-size: 0.95rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .form-group label {
+    font-weight: 500;
+    color: var(--color-dark);
+    font-size: 0.9rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 0.85rem 1rem;
+    border: 2px solid var(--color-card-bg);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: var(--transition);
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+  }
+
+  .btn-auth {
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    flex: 1;
+  }
+
+  .btn-auth:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-2px);
+  }
+
+  .btn-auth:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+  }
+
+  .step-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .btn-back {
+    background: none;
+    border: 2px solid var(--color-card-bg);
+    color: var(--color-body-light);
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .btn-back:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .step-error {
+    color: var(--color-error);
+    font-size: 0.9rem;
+    text-align: center;
+    min-height: 1.2em;
+  }
+
+  .step-notice {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--color-dark);
+    background: var(--color-primary-light);
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .step-notice a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .asistencia-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .asistencia-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.5rem;
+    background: var(--color-bg);
+    border: 2px solid var(--color-card-bg);
+    border-radius: var(--radius-md);
+    font-size: 1.05rem;
+    color: var(--color-dark);
+    transition: var(--transition);
+  }
+
+  .asistencia-btn:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary-light);
+  }
+
+  .asistencia-btn.selected {
+    border-color: var(--color-primary);
+    background: var(--color-primary-light);
+  }
+
+  .asistencia-icon {
+    font-size: 1.5rem;
+  }
+
+  .alergenos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .alergeno-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 0.85rem;
+    background: var(--color-bg);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--transition);
+  }
+
+  .alergeno-check:has(input:checked) {
+    background: var(--color-primary-light);
+    border: 1px solid var(--color-primary);
+  }
+
+  .diet-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .diet-radio {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1rem;
+    background: var(--color-bg);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--transition);
+  }
+
+  .diet-radio:has(input:checked) {
+    background: var(--color-primary-light);
+    border: 1px solid var(--color-primary);
+  }
+
+  .upload-hint {
+    color: var(--color-body-light);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+  }
+
+  @media (max-width: 480px) {
+    .step-label {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import { getApiUrl, getImagesApiUrl, initializeSession } from '../utils/auth';
+
+  const API_URL = getApiUrl();
+  const IMAGES_API_URL = getImagesApiUrl();
+
+  interface VerifyResponse {
+    name?: string;
+    alreadyRegistered?: boolean;
+    error?: string;
+  }
+
+  const state = {
+    phone: '',
+    generalPassword: '',
+    attendance: '',
+    imgProfile: '',
+  };
+
+  function showStep(step: number) {
+    document.querySelectorAll('.reg-step').forEach((el) => el.classList.remove('active'));
+    document.getElementById(`step-${step}`)?.classList.add('active');
+
+    document.querySelectorAll('.step-dot').forEach((dot) => {
+      const n = Number((dot as HTMLElement).dataset.step);
+      dot.classList.toggle('active', n === step);
+      dot.classList.toggle('done', n < step);
+    });
+  }
+
+  function setError(step: number, message: string) {
+    const el = document.getElementById(`error-${step}`);
+    if (el) el.textContent = message;
+  }
+
+  function inputValue(id: string): string {
+    return (document.getElementById(id) as HTMLInputElement).value.trim();
+  }
+
+  async function uploadProfileImage(): Promise<string> {
+    const input = document.getElementById('reg-imgProfile') as HTMLInputElement | null;
+    const file = input?.files?.[0];
+    if (!file) return '';
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const res = await fetch(`${IMAGES_API_URL}/api/images?folder=${encodeURIComponent('imgProfile')}`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await res.json().catch(() => ({} as { key?: string; error?: string }));
+    if (!res.ok || !data.key) {
+      throw new Error(data.error || 'No se pudo subir la foto de perfil.');
+    }
+
+    return data.key;
+  }
+
+  // Botones "Atrás"
+  document.querySelectorAll('.btn-back').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const back = Number((btn as HTMLElement).dataset.back);
+      if (back >= 1) showStep(back);
+    });
+  });
+
+  // ---- Paso 1: verificación teléfono + contraseña general ----
+  document.getElementById('step-1')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    setError(1, '');
+    const notice = document.getElementById('notice-1');
+    if (notice) notice.hidden = true;
+
+    const phone = inputValue('reg-phone');
+    const generalPassword = (document.getElementById('reg-general-password') as HTMLInputElement).value.trim();
+
+    if (!phone) {
+      setError(1, 'Introduce tu número de teléfono.');
+      return;
+    }
+    if (!generalPassword) {
+      setError(1, 'Introduce la contraseña de tu invitación.');
+      return;
+    }
+
+    const btn = document.getElementById('btn-step-1') as HTMLButtonElement;
+    btn.disabled = true;
+    btn.textContent = 'Verificando...';
+
+    try {
+      const res = await fetch(`${API_URL}/api/auth/register/verify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, generalPassword }),
+      });
+
+      const data = await res.json() as VerifyResponse;
+
+      if (res.ok) {
+        if (data.alreadyRegistered) {
+          if (notice) notice.hidden = false;
+          return;
+        }
+        state.phone = phone;
+        state.generalPassword = generalPassword;
+
+        const nameInput = document.getElementById('reg-name') as HTMLInputElement;
+        if (nameInput && data.name) nameInput.value = data.name;
+
+        const greeting = document.getElementById('step2-greeting');
+        if (greeting && data.name) greeting.textContent = `Hola, ${data.name}. Completa tus datos de acceso.`;
+
+        showStep(2);
+      } else {
+        setError(1, data.error || 'No se pudo verificar. Revisa los datos.');
+      }
+    } catch {
+      setError(1, 'Error de conexión. Inténtalo de nuevo.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Verificar';
+    }
+  });
+
+  // ---- Paso 2: datos de la cuenta ----
+  document.getElementById('step-2')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    setError(2, '');
+
+    const name = inputValue('reg-name');
+    const email = inputValue('reg-email');
+    const password = (document.getElementById('reg-password') as HTMLInputElement).value;
+    const password2 = (document.getElementById('reg-password2') as HTMLInputElement).value;
+
+    if (!name) {
+      setError(2, 'Introduce tu nombre.');
+      return;
+    }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      setError(2, 'Introduce un email válido.');
+      return;
+    }
+    if (password.length < 8) {
+      setError(2, 'La contraseña debe tener al menos 8 caracteres.');
+      return;
+    }
+    if (password !== password2) {
+      setError(2, 'Las contraseñas no coinciden.');
+      return;
+    }
+
+    showStep(3);
+  });
+
+  // ---- Paso 3: asistencia ----
+  document.querySelectorAll('.reg-step .asistencia-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.reg-step .asistencia-btn').forEach((b) => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      state.attendance = (btn as HTMLElement).dataset.value || '';
+      setError(3, '');
+    });
+  });
+
+  document.getElementById('step-3')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!state.attendance) {
+      setError(3, 'Selecciona una opción para continuar.');
+      return;
+    }
+    showStep(4);
+  });
+
+  // ---- Paso 4: alérgenos + dieta + envío final ----
+  document.getElementById('step-4')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    setError(4, '');
+
+    const allergens = Array.from(
+      document.querySelectorAll('.reg-step .alergeno-check input:checked')
+    ).map((cb) => (cb as HTMLInputElement).value);
+
+    const diet = (document.querySelector('input[name="diet"]:checked') as HTMLInputElement)?.value || 'NINGUNA';
+    const dietNotes = (document.getElementById('reg-diet-notes') as HTMLTextAreaElement).value.trim();
+
+    const btn = document.getElementById('btn-step-4') as HTMLButtonElement;
+    btn.disabled = true;
+    btn.textContent = 'Creando cuenta...';
+
+    try {
+      if (!state.imgProfile) {
+        state.imgProfile = await uploadProfileImage();
+      }
+
+      const res = await fetch(`${API_URL}/api/auth/register/complete`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: state.phone,
+          generalPassword: state.generalPassword,
+          name: inputValue('reg-name'),
+          email: inputValue('reg-email'),
+          password: (document.getElementById('reg-password') as HTMLInputElement).value,
+          attendance: state.attendance,
+          allergens,
+          diet,
+          dietNotes,
+          imgProfile: state.imgProfile || null,
+        }),
+      });
+
+      const data = await res.json() as { token?: string; family?: unknown; error?: string };
+
+      if (res.ok && data.token) {
+        initializeSession(data.token, data.family);
+        window.location.href = '/panel';
+      } else {
+        setError(4, data.error || 'No se pudo completar el registro.');
+      }
+    } catch {
+      setError(4, 'Error de conexión. Inténtalo de nuevo.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Crear cuenta';
+    }
+  });
+</script>

@@ -1,0 +1,228 @@
+---
+const menuSecciones = [
+  {
+    titulo: "Cóctel de Bienvenida",
+    platos: [
+      { nombre: "Jamón ibérico de bellota", descripcion: "Cortado a mano con pan tostado y tomate", alergenos: ["Gluten"] },
+      { nombre: "Bruschetta de tomate y albahaca", descripcion: "Con aceite de oliva virgen extra", alergenos: ["Gluten", "Lactosa"] },
+      { nombre: "Croquetas caseras de jamón", descripcion: "Crujientes por fuera, cremosas por dentro", alergenos: ["Gluten", "Lactosa", "Huevo"] },
+      { nombre: "Gazpacho andaluz", descripcion: "Servido en vasito con su guarnición", alergenos: [] },
+    ],
+  },
+  {
+    titulo: "Primeros",
+    platos: [
+      { nombre: "Arroz meloso con marisco", descripcion: "Con gambas, mejillones y calamares", alergenos: ["Marisco", "Pescado"] },
+      { nombre: "Ensalada tibia de quinoa", descripcion: "Con verduras de temporada y aderezo de lima", alergenos: [] },
+    ],
+  },
+  {
+    titulo: "Segundos",
+    platos: [
+      { nombre: "Solomillo de ternera", descripcion: "Con salsa de champiñones y patatas panaderas", alergenos: ["Lactosa"] },
+      { nombre: "Lubina al horno", descripcion: "Con verduras asadas y limón", alergenos: ["Pescado"] },
+      { nombre: "Risotto de setas", descripcion: "Con trufa y parmesano", alergenos: ["Lactosa", "Gluten"] },
+    ],
+  },
+  {
+    titulo: "Postres",
+    platos: [
+      { nombre: "Tarta de chocolate negro", descripcion: "Con núcleo de mermelada de frutos rojos", alergenos: ["Gluten", "Lactosa", "Huevo"] },
+      { nombre: "Mousse de mango", descripcion: "Con coulis de maracuyá", alergenos: ["Lactosa"] },
+    ],
+  },
+];
+
+const alergenosInfo = [
+  { emoji: "🌾", nombre: "Gluten" },
+  { emoji: "🥛", nombre: "Lactosa" },
+  { emoji: "🥜", nombre: "Frutos Secos" },
+  { emoji: "🦐", nombre: "Marisco" },
+  { emoji: "🐟", nombre: "Pescado" },
+  { emoji: "🥚", nombre: "Huevo" },
+  { emoji: "🫘", nombre: "Soja" },
+];
+---
+
+<section class="menu-hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Menú de la Boda</h1>
+    <p>Una experiencia gastronómica inolvidable</p>
+  </div>
+</section>
+
+<section class="menu-seccion">
+  <div class="container">
+    {menuSecciones.map((seccion) => (
+      <div class="menu-card">
+        <h2>{seccion.titulo}</h2>
+        {seccion.platos.map((plato) => (
+          <div class="plato">
+            <h3>{plato.nombre}</h3>
+            <p class="descripcion">{plato.descripcion}</p>
+            {plato.alergenos.length > 0 && (
+              <div class="alergenos">
+                {plato.alergenos.map((a) => (
+                  <span class="alergeno">{a}</span>
+                ))}
+              </div>
+            )}
+            {plato.alergenos.length === 0 && (
+              <div class="alergenos">
+                <span class="alergeno sin-alergenos">Sin alérgenos</span>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    ))}
+
+    <div class="alergenos-info">
+      <h3>Información de Alérgenos</h3>
+      <p>Si tienes alguna alergia o intolerancia alimentaria, por favor indícalo en tu perfil para que podamos adaptarnos a tus necesidades.</p>
+      <div class="alergenos-icons">
+        {alergenosInfo.map((a) => (
+          <span class="alergeno-icon">{a.emoji} {a.nombre}</span>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .menu-hero {
+    position: relative;
+    height: 50vh;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80') center/cover no-repeat;
+    margin-top: -70px;
+    padding-top: 70px;
+  }
+
+  .menu-seccion {
+    padding: 4rem 2rem;
+    background: var(--color-bg);
+  }
+
+  .menu-card {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .menu-card h2 {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--color-card-bg);
+  }
+
+  .plato {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed #eee;
+  }
+
+  .plato:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .plato h3 {
+    font-size: 1.1rem;
+    color: var(--color-dark);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  .descripcion {
+    color: var(--color-body-light);
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .alergenos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .alergeno {
+    background: var(--color-primary-light);
+    color: #8b6914;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .sin-alergenos {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  .alergenos-info {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .alergenos-info h3 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--color-dark);
+    margin-bottom: 1rem;
+  }
+
+  .alergenos-info > p {
+    color: var(--color-body);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .alergenos-icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .alergeno-icon {
+    background: var(--color-bg);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    color: var(--color-body);
+  }
+
+  @media (max-width: 768px) {
+    .menu-hero {
+      height: 40vh;
+    }
+
+    .menu-card {
+      padding: 1.5rem;
+    }
+
+    .menu-card h2 {
+      font-size: 1.5rem;
+    }
+
+    .alergenos-icons {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>

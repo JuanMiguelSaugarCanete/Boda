@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: BO-IMAGE
+  codec:
+    max-in-memory-size: 16MB
+  webflux:
+    multipart:
+      max-in-memory-size: 16MB
+      max-parts: 32
+      max-disk-usage-per-part: 4GB
+server:
+  port: 8084
+aws:
+  bucket: ${AWS_S3_BUCKET:}
+  region: ${AWS_REGION:eu-west-1}
+  access-key: ${AWS_ACCESS_KEY_ID:}
+  secret-key: ${AWS_SECRET_ACCESS_KEY:}
+  presign-expiration-minutes: ${AWS_PRESIGN_EXPIRATION:15}

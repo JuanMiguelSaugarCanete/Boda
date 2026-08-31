@@ -1,0 +1,94 @@
+---
+const details = [
+  { icon: "📅", label: "Fecha", value: "1 de Octubre de 2027" },
+  { icon: "🕐", label: "Hora", value: "17:00h" },
+  { icon: "📍", label: "Lugar", value: "Finca El Mirador de Cuatro Vientos, Madrid" },
+  { icon: "👔", label: "Dress Code", value: "Formal / Elegante" },
+];
+---
+
+<section class="gran-dia" id="gran-dia">
+  <div class="container">
+    <h2 class="section-title">El Gran Día</h2>
+    <div class="divider"></div>
+    <p class="gran-dia-intro">
+      Toda la información que necesitas para no perderte nada en nuestro día especial.
+    </p>
+    <div class="details-grid">
+      {details.map((detail) => (
+        <div class="detail-card">
+          <span class="detail-icon">{detail.icon}</span>
+          <span class="detail-label">{detail.label}</span>
+          <span class="detail-value">{detail.value}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .gran-dia {
+    padding: 5rem 2rem;
+    background: var(--color-card-bg);
+  }
+
+  .divider {
+    width: 80px;
+    height: 3px;
+    background: var(--color-primary);
+    margin: 1rem auto 1rem;
+    border-radius: 2px;
+  }
+
+  .gran-dia-intro {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--color-body);
+    margin-bottom: 3rem;
+  }
+
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .detail-card {
+    background: var(--color-white);
+    padding: 2rem 1.5rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+  }
+
+  .detail-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .detail-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .detail-label {
+    display: block;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--color-primary);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .detail-value {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: var(--color-dark);
+    font-weight: 500;
+  }
+</style>

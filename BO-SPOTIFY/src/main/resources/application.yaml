@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: BO-SPOTIFY
+server:
+  port: 8083
+spotify:
+  client-id: ${SPOTIFY_CLIENT_ID:}
+  client-secret: ${SPOTIFY_CLIENT_SECRET:}
+  playlist-id: ${SPOTIFY_PLAYLIST_ID:}
+  redirect-uri: ${SPOTIFY_REDIRECT_URI:http://localhost:8083/api/spotify/callback}
+  refresh-token: ${SPOTIFY_REFRESH_TOKEN:}

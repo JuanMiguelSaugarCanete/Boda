@@ -1,0 +1,256 @@
+---
+const navItems = [
+  { href: '/', label: 'Inicio' },
+  { href: '/itinerario', label: 'Itinerario' },
+  { href: '/menu', label: 'Menú' },
+  { href: '/imagenes', label: 'Imágenes' },
+  { href: '/canciones', label: 'Sugerir Canción' },
+  { href: '/login', label: 'Iniciar Sesión' },
+];
+---
+
+<nav class="navbar">
+  <div class="navbar-container">
+    <a href="/" class="navbar-logo">
+      <span class="logo-names">J & N</span>
+    </a>
+    <button class="navbar-toggle" aria-label="Abrir menú" aria-expanded="false">
+      <span class="hamburger"></span>
+    </button>
+    <a class="navbar-user" href="/panel" hidden>
+      <img class="navbar-avatar" alt="Tu foto de perfil" />
+      <span class="navbar-user-label">Mi panel</span>
+    </a>
+    <ul class="navbar-menu">
+      {navItems.map((item) => (
+        <li>
+          <a href={item.href} class={Astro.url.pathname === item.href ? 'active' : ''}>
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-sm);
+    height: 70px;
+  }
+
+  .navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .navbar-logo {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .navbar-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .navbar-user {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.45rem 0.75rem;
+    border-radius: 999px;
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .navbar-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--color-card-bg);
+    flex-shrink: 0;
+  }
+
+  .navbar-menu a {
+    color: var(--color-dark);
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    padding: 0.5rem 0;
+    position: relative;
+  }
+
+  .navbar-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-primary);
+    transition: var(--transition);
+  }
+
+  .navbar-menu a:hover::after,
+  .navbar-menu a.active::after {
+    width: 100%;
+  }
+
+  .navbar-menu a.active {
+    color: var(--color-primary);
+  }
+
+  .navbar-toggle {
+    display: none;
+    background: none;
+    padding: 0.5rem;
+  }
+
+  .hamburger {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background: var(--color-dark);
+    position: relative;
+    transition: var(--transition);
+  }
+
+  .hamburger::before,
+  .hamburger::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 2px;
+    background: var(--color-dark);
+    transition: var(--transition);
+  }
+
+  .hamburger::before {
+    top: -8px;
+  }
+
+  .hamburger::after {
+    bottom: -8px;
+  }
+
+  @media (max-width: 768px) {
+    .navbar-toggle {
+      display: block;
+    }
+
+    .navbar-menu {
+      position: fixed;
+      top: 70px;
+      left: 0;
+      right: 0;
+      background: var(--color-white);
+      flex-direction: column;
+      padding: 2rem;
+      gap: 1.5rem;
+      box-shadow: var(--shadow-md);
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+
+    .navbar-menu.open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .navbar-user {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import { hasActiveSession, getStoredFamily, findLoggedPerson, resolveProfileImageUrl, getToken, getSessionEmail } from '../utils/auth';
+
+  const toggle = document.querySelector('.navbar-toggle') as HTMLButtonElement | null;
+  const menu = document.querySelector('.navbar-menu') as HTMLUListElement | null;
+  const userLink = document.querySelector('.navbar-user') as HTMLAnchorElement | null;
+  const avatar = document.querySelector('.navbar-avatar') as HTMLImageElement | null;
+
+  function placeholderAvatar(name: string): string {
+    const label = (name || 'Mi').trim().slice(0, 2).toUpperCase();
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
+      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+        <rect width="64" height="64" rx="32" fill="#f2e6e6"/>
+        <text x="32" y="39" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#8b5a5a">${label}</text>
+      </svg>
+    `)}`;
+  }
+
+  // Si hay sesión activa, el enlace de login pasa a ser el panel del invitado
+  if (hasActiveSession()) {
+    const loginLink = document.querySelector('.navbar-menu a[href="/login"]');
+    if (loginLink) {
+      loginLink.textContent = 'Mi panel';
+      loginLink.setAttribute('href', '/panel');
+    }
+
+    const family = getStoredFamily();
+    const token = getToken() || '';
+    const email = getSessionEmail(token) || '';
+    const person = findLoggedPerson(family, email);
+
+    if (userLink) {
+      userLink.hidden = false;
+      if (avatar) {
+        const fallback = placeholderAvatar(person?.name || 'Mi');
+        avatar.src = fallback;
+        void resolveProfileImageUrl(person?.imgProfile).then((url) => {
+          if (url && avatar) avatar.src = url;
+        });
+      }
+      if (person?.name && userLink.querySelector('.navbar-user-label')) {
+        userLink.querySelector('.navbar-user-label')!.textContent = person.name;
+      }
+    }
+  } else {
+    // Si no hay sesión activa, ocultar los enlaces restringidos
+    ['/imagenes', '/canciones'].forEach((href) => {
+      const link = document.querySelector(`.navbar-menu a[href="${href}"]`);
+      link?.closest('li')?.remove();
+    });
+    userLink?.setAttribute('hidden', '');
+  }
+
+  toggle?.addEventListener('click', () => {
+    menu?.classList.toggle('open');
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+  });
+
+  document.addEventListener('click', (e) => {
+    const target = e.target as Node | null;
+    if (!menu?.contains(target) && !toggle?.contains(target)) {
+      menu?.classList.remove('open');
+      toggle?.setAttribute('aria-expanded', 'false');
+    }
+  });
+</script>

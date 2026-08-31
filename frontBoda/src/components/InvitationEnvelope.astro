@@ -1,0 +1,344 @@
+---
+interface Props {
+  names: string[];
+}
+
+const { names } = Astro.props;
+
+const formattedNames =
+  names.length <= 1
+    ? (names[0] ?? '')
+    : `${names.slice(0, -1).join(', ')} y ${names[names.length - 1]}`;
+---
+
+<section class="invite-scene">
+  <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Abrir la invitación">
+    <div class="envelope-back"></div>
+    <div class="envelope-body">
+      <div class="envelope-pocket"></div>
+    </div>
+
+    <div class="envelope-flap"></div>
+
+    <div class="letter" id="letter">
+      <div class="letter-content">
+        <p class="invite-pretitle">¡Nos casamos!</p>
+        <h1 class="invite-couple">Juanmi <span>&</span> Nerea</h1>
+        <div class="invite-divider">❦</div>
+        <p class="invite-message">
+          Hay momentos que se guardan para siempre en el corazón, y queremos vivir
+          el nuestro rodeados de las personas que más queremos. Nos haría una
+          ilusión inmensa que nos acompañaras en el día más importante de nuestras vidas.
+        </p>
+        <p class="invite-for">Invitación para</p>
+        <p class="invite-names">{formattedNames}</p>
+        <div class="invite-details">
+          <p class="invite-date">1 de Octubre de 2027 · 17:00h</p>
+          <p class="invite-venue">Finca El Mirador de Cuatro Vientos · Madrid</p>
+        </div>
+        <a class="invite-btn" href="/">Visita nuestra web</a>
+      </div>
+    </div>
+
+    <div class="seal"><span>J & N</span></div>
+  </div>
+
+  <p class="hint" id="hint">Toca el sobre para abrirlo</p>
+</section>
+
+<style>
+  .invite-scene {
+    min-height: 100vh;
+    background: radial-gradient(circle at 50% 25%, #ffffff 0%, var(--color-bg) 45%, var(--color-primary-light) 140%);
+  }
+
+  /* Sobre a pantalla completa */
+  .envelope {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    cursor: pointer;
+  }
+
+  .envelope:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -10px;
+  }
+
+  .envelope-body {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    overflow: hidden;
+  }
+
+  .envelope-back {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: #e4d4b8;
+    transition: transform 1.3s cubic-bezier(0.5, 0, 0.75, 0.4);
+  }
+
+  .envelope-pocket {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background: linear-gradient(180deg, #f4ead7 0%, #e6d6b4 100%);
+    clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56%;
+    z-index: 4;
+    background: linear-gradient(180deg, #efdfc2 0%, #dcc9a2 100%);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center;
+    transform: perspective(1400px) rotateX(0deg);
+    transition: transform 0.9s cubic-bezier(0.45, 0.05, 0.35, 1) 0.25s, z-index 0s 1.15s;
+  }
+
+  .seal {
+    position: absolute;
+    left: 50%;
+    top: 56%;
+    z-index: 5;
+    width: min(76px, 18vw);
+    height: min(76px, 18vw);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 35% 30%, #e6bd8a 0%, var(--color-primary) 55%, #a97c4c 100%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 0 0 3px rgba(255, 255, 255, 0.25);
+    transform: translate(-50%, -50%);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  .seal span {
+    font-family: var(--font-heading);
+    font-size: clamp(0.9rem, 2.5vw, 1.15rem);
+    font-weight: 600;
+    color: var(--color-white);
+    letter-spacing: 1px;
+  }
+
+  /* Carta escondida dentro del sobre */
+  .letter {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: min(94vw, 1200px);
+    height: min(90vh, 900px);
+    background: var(--color-white);
+    border-radius: 8px;
+    box-shadow: 0 4px 24px rgba(44, 62, 80, 0.1);
+    overflow: hidden;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+  }
+
+  .letter-content {
+    height: 100%;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.9rem;
+  }
+
+  .invite-pretitle {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+
+  .invite-couple {
+    font-size: clamp(2.2rem, 7vw, 3.4rem);
+    font-weight: 600;
+    color: var(--color-dark);
+  }
+
+  .invite-couple span {
+    color: var(--color-primary);
+    font-style: italic;
+  }
+
+  .invite-divider {
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .invite-message {
+    color: var(--color-body);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 38ch;
+  }
+
+  .invite-for {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--color-body-light);
+    margin-top: 0.4rem;
+  }
+
+  .invite-names {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: clamp(1.5rem, 4vw, 1.9rem);
+    color: var(--color-primary-hover);
+  }
+
+  .invite-details {
+    margin-top: 0.4rem;
+  }
+
+  .invite-date {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--color-dark);
+  }
+
+  .invite-venue {
+    font-size: 0.9rem;
+    color: var(--color-body-light);
+  }
+
+  .invite-btn {
+    margin-top: 0.8rem;
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: 0.85rem 2.4rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: inline-block;
+  }
+
+  .invite-btn:hover {
+    background: var(--color-primary-hover);
+    color: var(--color-white);
+    transform: translateY(-2px);
+  }
+
+  .hint {
+    position: fixed;
+    bottom: 4vh;
+    left: 50%;
+    z-index: 11;
+    transform: translateX(-50%);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-body-light);
+    animation: hintPulse 2.2s ease-in-out infinite;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  @keyframes hintPulse {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 1; }
+  }
+
+  /* Estado: abriendo el sobre */
+  .envelope.opening {
+    cursor: default;
+  }
+
+  .envelope.opening .seal {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+
+  .envelope.opening .envelope-flap {
+    transform: perspective(1400px) rotateX(-180deg);
+    z-index: 1;
+  }
+
+  .envelope.opening ~ .hint {
+    animation: none;
+    opacity: 0;
+  }
+
+  /* Estado: carta expandida como invitación completa */
+  .envelope.expanded {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* El sobre cae lentamente hacia abajo desapareciendo */
+  .envelope.expanded .envelope-body {
+    transform: translateY(100%);
+    transition: transform 1.3s cubic-bezier(0.5, 0, 0.75, 0.4);
+  }
+
+  .envelope.expanded .envelope-back {
+    transform: translateY(100%);
+  }
+
+  .envelope.expanded .envelope-flap {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .envelope.expanded .letter {
+    overflow-y: auto;
+    pointer-events: auto;
+    box-shadow: var(--shadow-lg);
+    transition: box-shadow 1s ease;
+  }
+
+  @media (max-width: 480px) {
+    .letter-content {
+      padding: 2rem 1.25rem;
+    }
+  }
+</style>
+
+<script>
+  const envelope = document.getElementById('envelope');
+  const flap = envelope?.querySelector('.envelope-flap');
+
+  let opened = false;
+  let expanded = false;
+
+  function expandLetter() {
+    if (expanded || !envelope) return;
+    expanded = true;
+    envelope.classList.add('expanded');
+  }
+
+  function openEnvelope() {
+    if (opened || !envelope) return;
+    opened = true;
+    envelope.classList.add('opening');
+
+    flap?.addEventListener('transitionend', (e) => {
+      if ((e as TransitionEvent).propertyName === 'transform') expandLetter();
+    });
+
+    // Fallback por si transitionend no se dispara
+    setTimeout(expandLetter, 2400);
+  }
+
+  envelope?.addEventListener('click', openEnvelope);
+  envelope?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openEnvelope();
+    }
+  });
+</script>

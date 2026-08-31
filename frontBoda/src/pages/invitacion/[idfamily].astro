@@ -1,0 +1,84 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InvitationEnvelope from '../../components/InvitationEnvelope.astro';
+
+const { idfamily } = Astro.params;
+
+const USERS_API_URL = import.meta.env.PUBLIC_USERS_API_URL || 'http://localhost:8082';
+
+let names: string[] = [];
+let hasError = false;
+
+try {
+  const res = await fetch(`${USERS_API_URL}/api/families/idfamily/${idfamily}`);
+  if (res.ok) {
+    const family = await res.json();
+    names = (family.people ?? []).map((person: { name: string }) => person.name);
+    hasError = names.length === 0;
+  } else {
+    hasError = true;
+  }
+} catch {
+  hasError = true;
+}
+---
+
+<BaseLayout title="Tu Invitación - Juanmi & Nerea">
+  {hasError ? (
+    <section class="invite-error">
+      <div class="invite-error-card">
+        <h1>Invitación no encontrada</h1>
+        <p>No hemos podido cargar tu invitación. Comprueba el enlace o inténtalo de nuevo más tarde.</p>
+        <a href="/">Volver a la web</a>
+      </div>
+    </section>
+  ) : (
+    <InvitationEnvelope names={names} />
+  )}
+</BaseLayout>
+
+<style>
+  .invite-error {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background: var(--color-bg);
+  }
+
+  .invite-error-card {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 3rem 2.5rem;
+    text-align: center;
+    max-width: 420px;
+  }
+
+  .invite-error-card h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .invite-error-card p {
+    color: var(--color-body);
+    margin-bottom: 1.5rem;
+  }
+
+  .invite-error-card a {
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: 0.8rem 2rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    display: inline-block;
+  }
+
+  .invite-error-card a:hover {
+    background: var(--color-primary-hover);
+    color: var(--color-white);
+  }
+</style>

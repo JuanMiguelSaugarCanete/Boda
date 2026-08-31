@@ -1,0 +1,240 @@
+---
+const bankAccount = 'ES64 0182 5322 2802 0825 3817';
+---
+
+<section class="mensajes" id="mensajes">
+  <div class="container">
+    <h2 class="section-title">Un pequeño secreto</h2>
+    <div class="divider"></div>
+    <p class="mensajes-intro">
+      Ayúdanos a no terminar fregando platos en Japón para pagar la luna de miel.
+    </p>
+
+    <article class="bank-card" aria-labelledby="bank-card-title">
+      <div class="bank-card__badge">Carta de regalo</div>
+      <h3 class="bank-card__title" id="bank-card-title">Nuestro número mágico</h3>
+      <p class="bank-card__copy">
+        Ayuda a la causa "Los Novios en Apuros": prometemos gastar cada euro en sushi, takoyakis y algún que otro capricho en Tokio.
+      </p>
+
+      <div class="bank-card__account-wrap">
+        <p class="bank-card__label">Cuenta bancaria</p>
+        <p class="bank-card__account" id="bank-account" data-account={bankAccount}>•••• •••• •••• •••• •••• ••••</p>
+      </div>
+
+      <div class="bank-card__actions">
+        <button type="button" class="btn-action" id="reveal-account" aria-controls="bank-account" aria-expanded="false">
+          Desvelar cuenta
+        </button>
+        <button type="button" class="btn-action btn-action--secondary" id="copy-account" disabled>
+          Copiar cuenta
+        </button>
+      </div>
+
+      <p class="bank-card__status" id="bank-status" aria-live="polite"></p>
+    </article>
+  </div>
+</section>
+
+<style>
+  .mensajes {
+    padding: 5rem 2rem;
+    background: var(--color-card-bg);
+  }
+
+  .divider {
+    width: 80px;
+    height: 3px;
+    background: var(--color-primary);
+    margin: 1rem auto 1rem;
+    border-radius: 2px;
+  }
+
+  .mensajes-intro {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--color-body);
+    margin-bottom: 3rem;
+  }
+
+  .bank-card {
+    max-width: 620px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(250, 244, 236, 0.98));
+    padding: 2.5rem;
+    border-radius: calc(var(--radius-lg) + 6px);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(212, 165, 116, 0.18);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bank-card::before {
+    content: '';
+    position: absolute;
+    inset: auto -40px -60px auto;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 165, 116, 0.2), rgba(212, 165, 116, 0));
+    pointer-events: none;
+  }
+
+  .bank-card__badge {
+    display: inline-block;
+    background: var(--color-primary-light);
+    color: var(--color-primary-hover);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.5rem 0.85rem;
+    border-radius: 999px;
+    margin-bottom: 1rem;
+  }
+
+  .bank-card__title {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    margin-bottom: 1rem;
+    color: var(--color-dark);
+  }
+
+  .bank-card__copy {
+    color: var(--color-body);
+    margin-bottom: 1.75rem;
+    line-height: 1.7;
+  }
+
+  .bank-card__account-wrap {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px dashed rgba(212, 165, 116, 0.35);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .bank-card__label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-body-light);
+    margin-bottom: 0.5rem;
+  }
+
+  .bank-card__account {
+    font-size: clamp(1.1rem, 2.8vw, 1.45rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-dark);
+    word-break: break-word;
+    line-height: 1.5;
+    font-family: var(--font-body);
+  }
+
+  .bank-card__account.is-hidden {
+    filter: blur(7px);
+    user-select: none;
+  }
+
+  .bank-card__actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-action {
+    flex: 1 1 220px;
+    padding: 0.95rem 1.1rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-primary);
+    color: var(--color-white);
+    font-size: 1rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .btn-action:hover:not(:disabled) {
+    background: var(--color-primary-hover);
+    transform: translateY(-2px);
+  }
+
+  .btn-action:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-action--secondary {
+    background: var(--color-dark);
+  }
+
+  .btn-action--secondary:hover:not(:disabled) {
+    background: #223140;
+  }
+
+  .bank-card__status {
+    min-height: 1.25rem;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: var(--color-success);
+  }
+
+  @media (max-width: 640px) {
+    .mensajes {
+      padding: 4rem 1rem;
+    }
+
+    .bank-card {
+      padding: 1.5rem;
+    }
+
+    .bank-card__actions {
+      flex-direction: column;
+    }
+
+    .btn-action {
+      width: 100%;
+      flex-basis: auto;
+    }
+  }
+</style>
+
+<script>
+  const accountEl = document.getElementById('bank-account');
+  const revealButton = document.getElementById('reveal-account');
+  const copyButton = document.getElementById('copy-account') as HTMLButtonElement | null;
+  const status = document.getElementById('bank-status');
+  const account = accountEl?.getAttribute('data-account') ?? '';
+
+  const setStatus = (message: string, isError = false) => {
+    if (!status) return;
+    status.textContent = message;
+    status.style.color = isError ? 'var(--color-error)' : 'var(--color-success)';
+  };
+
+  revealButton?.addEventListener('click', () => {
+    if (!accountEl || !copyButton || !revealButton) return;
+
+    accountEl.textContent = account;
+    accountEl.classList.remove('is-hidden');
+    copyButton.disabled = false;
+    revealButton.setAttribute('aria-expanded', 'true');
+    setStatus('Cuenta revelada. Ya puedes copiarla si quieres.');
+  });
+
+  copyButton?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(account);
+      setStatus('Cuenta copiada al portapapeles.');
+    } catch {
+      setStatus('No se pudo copiar. Puedes seleccionarla manualmente.', true);
+    }
+  });
+
+  if (accountEl) {
+    accountEl.classList.add('is-hidden');
+  }
+</script>

@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: BO-USERS
+  config:
+    # Carga el .env de la raíz del proyecto (funciona tanto desde IntelliJ como desde CLI)
+    import: optional:file:../.env[.properties]
+server:
+  port: 8082
+aws:
+  region: ${AWS_REGION:}
+  dynamodb:
+    table: ${AWS_DYNAMO_TABLE:}
+    gsi-email: ${AWS_DYNAMO_GSI_EMAIL:}
+    gsi-tlf: ${AWS_DYNAMO_GSI_TLF:}
+    gsi-group: ${AWS_DYNAMO_GSI_GROUP:}
+  access-key: ${AWS_DB_ACCESS_KEY_ID:}
+  secret-key: ${AWS_DB_SECRET_ACCESS_KEY:}
+  presign-expiration-minutes: ${AWS_PRESIGN_EXPIRATION:15}
+register:
+  general-password: ${REGISTER_GENERAL_PASSWORD:}
+jwt:
+  secret: ${JWT_SECRET:}
+  expiration-ms: ${JWT_EXPIRATION_MS:86400000}

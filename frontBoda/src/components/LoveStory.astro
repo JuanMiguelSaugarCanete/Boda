@@ -1,0 +1,73 @@
+---
+const paragraphs = [
+  "Nos conocimos en un momento cualquiera de nuestras vidas, sin saber que ese encuentro cambiaría todo para siempre. Una mirada, una conversación, y de repente el mundo se pintó de colores diferentes.",
+  "Desde entonces, cada día juntos ha sido una aventura. Hemos compartido risas, sueños, viajes y momentos que nos han hecho más fuertes como pareja. Y ahora, queremos dar el paso más importante de nuestras vidas.",
+  "Porque el amor no se trata solo de mirarse el uno al otro, sino de mirar juntos en la misma dirección. Y nosotros hemos encontrado nuestro camino.",
+  "Queremos compartir este día tan especial con las personas que más queremos. Vosotros sois parte de nuestra historia, y no habría celebración completa sin vuestra presencia.",
+];
+---
+
+<section class="historia" id="historia">
+  <div class="container">
+    <h2 class="section-title">Nuestra Historia</h2>
+    <div class="divider"></div>
+    <div class="historia-content">
+      {paragraphs.map((p) => <p>{p}</p>)}
+    </div>
+    <div class="historia-quote">
+      <blockquote>
+        "El amor no se mira, se siente, y aún más cuando ella está cerca de ti."
+      </blockquote>
+      <cite>— Pablo Neruda</cite>
+    </div>
+  </div>
+</section>
+
+<style>
+  .historia {
+    padding: 6rem 2rem;
+    background: var(--color-bg);
+  }
+
+  .divider {
+    width: 80px;
+    height: 3px;
+    background: var(--color-primary);
+    margin: 1rem auto 3rem;
+    border-radius: 2px;
+  }
+
+  .historia-content {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .historia-content p {
+    font-size: 1.1rem;
+    line-height: 1.9;
+    color: var(--color-body);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .historia-quote {
+    margin-top: 3rem;
+    text-align: center;
+    padding: 2rem;
+    background: var(--color-card-bg);
+    border-radius: var(--radius-lg);
+  }
+
+  .historia-quote blockquote {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--color-dark);
+    margin-bottom: 1rem;
+  }
+
+  .historia-quote cite {
+    color: var(--color-primary);
+    font-size: 1rem;
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+const heroImage = "https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80";
+---
+
+<section class="hero-section" style={`background-image: url('${heroImage}');`}>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-pretitle">Nos casamos</p>
+    <h1>Bienvenidos a nuestra Boda</h1>
+    <p class="hero-names">Juanmi & Nerea</p>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .hero-pretitle {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+  }
+
+  .hero-names {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-style: italic;
+    margin-top: 1.5rem;
+    opacity: 0.95;
+  }
+
+  @media (max-width: 768px) {
+    .hero-pretitle {
+      font-size: 0.85rem;
+    }
+  }
+</style>

@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Gallery from '../components/Gallery.astro';
+import PolaroidCamera from '../components/PolaroidCamera.astro';
+import { requireAuth } from '../utils/auth';
+
+await requireAuth();
+---
+
+<BaseLayout title="Imágenes - Juanmi & Nerea">
+  <Navbar slot="navbar" />
+  <Gallery />
+  <PolaroidCamera />
+  <Footer slot="footer" />
+</BaseLayout>

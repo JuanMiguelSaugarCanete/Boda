@@ -1,0 +1,142 @@
+---
+const dressCodeItems = [
+  {
+    title: "Ellas",
+    items: [
+      "Vestido largo o midi elegante",
+      "Evitar color blanco (reservado para la novia)",
+      "Tacones o zapatos elegantes",
+      "Accesorios sofisticados",
+    ],
+  },
+  {
+    title: "Ellos",
+    items: [
+      "Traje oscuro o chaqué",
+      "Camisa blanca o clara",
+      "Corbata o pajarita",
+      "Zapatos de vestir",
+    ],
+  },
+];
+
+const notas = [
+  "La ceremonia será al aire libre en el jardín, tenedlo en cuenta para el calzado.",
+  "En octubre en Madrid puede refrescar por la noche, traed algo de abrigo.",
+  "Si tenéis alguna duda sobre el dress code, ¡preguntadnos sin problema!",
+];
+---
+
+<section class="dress-code" id="dress-code">
+  <div class="container">
+    <h2 class="section-title">Dress Code</h2>
+    <div class="divider"></div>
+    <p class="dress-code-intro">
+      Queremos que todos nos sintamos elegantes en este día tan especial. Aquí van algunas sugerencias.
+    </p>
+    <div class="dress-code-grid">
+      {dressCodeItems.map((section) => (
+        <div class="dress-code-card">
+          <h3>{section.title}</h3>
+          <ul>
+            {section.items.map((item) => (
+              <li>
+                <span class="check-icon">✦</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+    <div class="dress-code-notas">
+      {notas.map((nota) => (
+        <p class="nota-item">
+          <span class="nota-icon">💡</span>
+          {nota}
+        </p>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .dress-code {
+    padding: 5rem 2rem;
+    background: var(--color-white);
+  }
+
+  .divider {
+    width: 80px;
+    height: 3px;
+    background: var(--color-primary);
+    margin: 1rem auto 1rem;
+    border-radius: 2px;
+  }
+
+  .dress-code-intro {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--color-body);
+    margin-bottom: 3rem;
+  }
+
+  .dress-code-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+  }
+
+  .dress-code-card {
+    background: var(--color-bg);
+    padding: 2.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .dress-code-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .dress-code-card ul {
+    list-style: none;
+  }
+
+  .dress-code-card li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0;
+    color: var(--color-body);
+    font-size: 1rem;
+  }
+
+  .check-icon {
+    color: var(--color-primary);
+    font-size: 0.8rem;
+  }
+
+  .dress-code-notas {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .nota-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    color: var(--color-body);
+    font-size: 0.95rem;
+  }
+
+  .nota-icon {
+    flex-shrink: 0;
+  }
+</style>

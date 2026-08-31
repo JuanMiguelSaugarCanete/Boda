@@ -1,0 +1,170 @@
+---
+
+---
+
+<section class="auth-hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Iniciar Sesión</h1>
+    <p>Accede para gestionar tu asistencia</p>
+  </div>
+</section>
+
+<section class="auth-seccion">
+  <div class="auth-container">
+    <div class="auth-panel active">
+      <form class="auth-form" id="login-form">
+        <div class="form-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" required placeholder="tu@email.com" />
+        </div>
+        <div class="form-group">
+          <label for="login-password">Contraseña</label>
+          <input type="password" id="login-password" required placeholder="Tu contraseña" />
+        </div>
+        <button type="submit" class="btn-auth">Entrar</button>
+        <p class="auth-error" id="login-error"></p>
+        <p class="auth-register">
+          ¿No tienes cuenta? <a href="/registro">Regístrate aquí</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .auth-hero {
+    position: relative;
+    height: 40vh;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=1920&q=80') center/cover no-repeat;
+    margin-top: -70px;
+    padding-top: 70px;
+  }
+
+  .auth-seccion {
+    padding: 4rem 2rem;
+    background: var(--color-bg);
+    min-height: calc(100vh - 40vh - 70px);
+  }
+
+  .auth-container {
+    max-width: 450px;
+    margin: 0 auto;
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    padding: 2rem;
+  }
+
+  .auth-panel {
+    display: block;
+  }
+
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .form-group label {
+    font-weight: 500;
+    color: var(--color-dark);
+    font-size: 0.9rem;
+  }
+
+  .form-group input {
+    padding: 0.85rem 1rem;
+    border: 2px solid var(--color-card-bg);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: var(--transition);
+  }
+
+  .form-group input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+
+  .btn-auth {
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .btn-auth:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-2px);
+  }
+
+  .auth-error {
+    color: var(--color-error);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .auth-register {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--color-body-light);
+  }
+
+  .auth-register a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .auth-register a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<script>
+  import { getApiUrl, initializeSession } from '../utils/auth';
+
+  const API_URL = getApiUrl();
+
+  const loginForm = document.getElementById('login-form');
+  const loginError = document.getElementById('login-error');
+
+  loginForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = (document.getElementById('login-email') as HTMLInputElement).value;
+    const password = (document.getElementById('login-password') as HTMLInputElement).value;
+
+    try {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json() as { token?: string; family?: unknown; error?: string };
+
+      if (res.ok && data.token) {
+        initializeSession(data.token, data.family);
+        window.location.href = '/panel';
+      } else {
+        if (loginError) loginError.textContent = data.error || 'Error al iniciar sesión';
+      }
+    } catch {
+      if (loginError) loginError.textContent = 'Error de conexión';
+    }
+  });
+</script>

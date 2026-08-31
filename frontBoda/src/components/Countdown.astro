@@ -1,0 +1,134 @@
+---
+---
+
+<div class="countdown" id="countdown">
+  <div class="countdown-item">
+    <span class="countdown-number" id="days">000</span>
+    <span class="countdown-label">Días</span>
+  </div>
+  <div class="countdown-divider">:</div>
+  <div class="countdown-item">
+    <span class="countdown-number" id="hours">00</span>
+    <span class="countdown-label">Horas</span>
+  </div>
+  <div class="countdown-divider">:</div>
+  <div class="countdown-item">
+    <span class="countdown-number" id="minutes">00</span>
+    <span class="countdown-label">Minutos</span>
+  </div>
+  <div class="countdown-divider">:</div>
+  <div class="countdown-item">
+    <span class="countdown-number" id="seconds">00</span>
+    <span class="countdown-label">Segundos</span>
+  </div>
+</div>
+
+<div class="countdown-arrived" id="countdown-arrived" style="display: none;">
+  <span class="countdown-message">¡Ha llegado el gran día!</span>
+</div>
+
+<style>
+  .countdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem 2rem;
+    border-radius: var(--radius-md);
+    min-width: 120px;
+  }
+
+  .countdown-number {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+    font-family: var(--font-heading);
+  }
+
+  .countdown-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 0.5rem;
+    opacity: 0.9;
+  }
+
+  .countdown-divider {
+    font-size: 3rem;
+    font-weight: 300;
+    opacity: 0.7;
+  }
+
+  .countdown-arrived {
+    text-align: center;
+  }
+
+  .countdown-message {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 600;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  @media (max-width: 768px) {
+    .countdown-item {
+      min-width: 80px;
+      padding: 1rem;
+    }
+
+    .countdown-number {
+      font-size: 2rem;
+    }
+
+    .countdown-divider {
+      font-size: 2rem;
+    }
+  }
+</style>
+
+<script>
+  const WEDDING_DATE = new Date('2027-10-01T17:00:00').getTime();
+
+  function updateCountdown() {
+    const now = Date.now();
+    const diff = WEDDING_DATE - now;
+
+    if (diff <= 0) {
+      document.getElementById('countdown')!.style.display = 'none';
+      document.getElementById('countdown-arrived')!.style.display = 'block';
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    const daysEl = document.getElementById('days');
+    const hoursEl = document.getElementById('hours');
+    const minutesEl = document.getElementById('minutes');
+    const secondsEl = document.getElementById('seconds');
+
+    if (daysEl) daysEl.textContent = String(days).padStart(3, '0');
+    if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+    if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+    if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
