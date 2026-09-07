@@ -362,7 +362,9 @@
 </style>
 
 <script>
-  const API_URL = import.meta.env.PUBLIC_IMAGES_API_URL || 'http://localhost:8084';
+  import { getImagesApiUrl } from '../utils/auth';
+
+  const API_URL = getImagesApiUrl();
 
   const uploadZone = document.getElementById('upload-zone');
   const fileInput = document.getElementById('file-input');
