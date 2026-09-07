@@ -16,3 +16,5 @@ aws:
   access-key: ${AWS_ACCESS_KEY_ID:}
   secret-key: ${AWS_SECRET_ACCESS_KEY:}
   presign-expiration-minutes: ${AWS_PRESIGN_EXPIRATION:15}
+cors:
+  allowed-origins: ${ALLOWED_ORIGINS:http://localhost:4321}
