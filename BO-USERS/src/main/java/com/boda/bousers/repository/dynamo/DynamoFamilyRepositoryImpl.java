@@ -84,12 +84,20 @@ public class DynamoFamilyRepositoryImpl implements DynamoFamilyRepository {
 
     @Override
     public Optional<Family> findByIdfamily(Long idfamily) {
-        return queryByFamilyId(idfamily).stream().findFirst().map(this::toFamily);
+        List<Map<String, AttributeValue>> items = queryByFamilyId(idfamily);
+        if (items.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(toFamily(items));
     }
 
     @Override
     public Optional<Family> findById(String id) {
-        return queryByFamilyId(parseFamilyId(id)).stream().findFirst().map(this::toFamily);
+        List<Map<String, AttributeValue>> items = queryByFamilyId(parseFamilyId(id));
+        if (items.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(toFamily(items));
     }
 
     @Override

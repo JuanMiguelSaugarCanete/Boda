@@ -3,10 +3,11 @@ export const prerender = false;
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import InvitationEnvelope from '../../components/InvitationEnvelope.astro';
+import { getApiUrl } from '../../utils/auth';
 
 const { idfamily } = Astro.params;
 
-const USERS_API_URL = import.meta.env.PUBLIC_USERS_API_URL || 'http://localhost:8082';
+const USERS_API_URL = getApiUrl();
 
 let names: string[] = [];
 let hasError = false;

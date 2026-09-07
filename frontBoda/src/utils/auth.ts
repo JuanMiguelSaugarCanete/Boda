@@ -1,6 +1,38 @@
 // Gestión centralizada de la sesión del invitado (token JWT en localStorage)
-const API_URL = import.meta.env.PUBLIC_USERS_API_URL || 'http://localhost:8082';
-const IMAGES_API_URL = import.meta.env.PUBLIC_IMAGES_API_URL || 'http://localhost:8084';
+const API_PORTS = {
+  users: 8082,
+  spotify: 8083,
+  images: 8084,
+};
+
+function isBrowserHost(): boolean {
+  return typeof window !== 'undefined' && typeof window.location?.hostname === 'string';
+}
+
+function buildApiUrl(envUrl: string | undefined, port: number): string {
+  if (envUrl && envUrl.trim()) {
+    return envUrl.trim();
+  }
+
+  if (isBrowserHost()) {
+    const protocol = window.location.protocol || 'http:';
+    return `${protocol}//${window.location.hostname}:${port}`;
+  }
+
+  return `http://localhost:${port}`;
+}
+
+function getUsersApiUrl(): string {
+  return buildApiUrl(import.meta.env.PUBLIC_USERS_API_URL, API_PORTS.users);
+}
+
+function resolveSpotifyApiUrl(): string {
+  return buildApiUrl(import.meta.env.PUBLIC_SPOTIFY_API_URL, API_PORTS.spotify);
+}
+
+function resolveImagesApiUrl(): string {
+  return buildApiUrl(import.meta.env.PUBLIC_IMAGES_API_URL, API_PORTS.images);
+}
 
 const TOKEN_KEY = 'token';
 const USER_KEY = 'user';
@@ -16,11 +48,15 @@ export function isBrowser(): boolean {
 }
 
 export function getApiUrl(): string {
-  return API_URL;
+  return getUsersApiUrl();
 }
 
 export function getImagesApiUrl(): string {
-  return IMAGES_API_URL;
+  return resolveImagesApiUrl();
+}
+
+export function getSpotifyApiUrl(): string {
+  return resolveSpotifyApiUrl();
 }
 
 function safeGetItem(key: string): string | null {
@@ -104,9 +140,10 @@ export async function restoreSession(): Promise<Session | null> {
   }
 
   const email = getSessionEmail(token) || '';
+  const apiUrl = getUsersApiUrl();
 
   try {
-    const res = await fetch(`${API_URL}/api/auth/me`, {
+    const res = await fetch(`${apiUrl}/api/auth/me`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -167,7 +204,7 @@ export async function resolveProfileImageUrl(key?: string | null): Promise<strin
   if (cached) return cached;
 
   try {
-    const res = await fetch(`${IMAGES_API_URL}/api/images/url?key=${encodeURIComponent(normalized)}`);
+    const res = await fetch(`${resolveImagesApiUrl()}/api/images/url?key=${encodeURIComponent(normalized)}`);
     if (!res.ok) return null;
     const data = await res.json() as { url?: string };
     if (!data.url) return null;

@@ -301,9 +301,9 @@
 </style>
 
 <script>
-  import { requireAuth } from '../utils/auth';
+  import { getSpotifyApiUrl, requireAuth } from '../utils/auth';
 
-  const SPOTIFY_API_URL = import.meta.env.PUBLIC_SPOTIFY_API_URL || 'http://localhost:8083';
+  const SPOTIFY_API_URL = getSpotifyApiUrl();
 
   // Página protegida: sin sesión válida se redirige a /login
   await requireAuth();
