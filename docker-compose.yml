@@ -1,0 +1,52 @@
+services:
+  bo-users:
+    build: ./BO-USERS
+    container_name: bo-users
+    env_file: .env
+    ports:
+      - "8082:8082"
+    restart: unless-stopped
+    networks:
+      - boda-net
+
+  bo-image:
+    build: ./BO-IMAGE
+    container_name: bo-image
+    env_file: .env
+    ports:
+      - "8084:8084"
+    restart: unless-stopped
+    networks:
+      - boda-net
+
+  bo-spotify:
+    build: ./BO-SPOTIFY
+    container_name: bo-spotify
+    env_file: .env
+    ports:
+      - "8083:8083"
+    restart: unless-stopped
+    networks:
+      - boda-net
+
+  frontboda:
+    build:
+      context: ./frontBoda
+      args:
+        PUBLIC_USERS_API_URL: ${PUBLIC_USERS_API_URL:-http://localhost:8082}
+        PUBLIC_IMAGES_API_URL: ${PUBLIC_IMAGES_API_URL:-http://localhost:8084}
+        PUBLIC_SPOTIFY_API_URL: ${PUBLIC_SPOTIFY_API_URL:-http://localhost:8083}
+    container_name: frontboda
+    ports:
+      - "4321:4321"
+    restart: unless-stopped
+    depends_on:
+      - bo-users
+      - bo-image
+      - bo-spotify
+    networks:
+      - boda-net
+
+networks:
+  boda-net:
+    driver: bridge

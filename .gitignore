@@ -5,6 +5,7 @@ adminBoda/
 .env
 .env.*
 !.env.example
+.pem
 
 # Node / Astro
 **/node_modules/
