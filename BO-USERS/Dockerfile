@@ -5,6 +5,7 @@ WORKDIR /build
 # Copiamos primero solo lo necesario para resolver dependencias (cachea esta capa)
 COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
+RUN chmod +x mvnw
 RUN ./mvnw dependency:go-offline -B
 
 # Ahora sí copiamos el código y compilamos
